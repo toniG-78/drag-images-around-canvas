@@ -13,6 +13,7 @@ function createCanvas() {
   canvas.style.border = "4px solid gray";
 }
 
+// RESET CANVAS ****
 document.getElementById("clear").addEventListener("click", () => {
   document.body.removeChild(canvas);
   setTimeout(() => {
@@ -24,6 +25,7 @@ document.getElementById("clear").addEventListener("click", () => {
 
 createCanvas();
 //****************************************** */
+var offsetX, offsetY;
 
 // used to calc canvas position relative to window
 function reOffset() {
@@ -31,9 +33,9 @@ function reOffset() {
   offsetX = BB.left;
   offsetY = BB.top;
 }
-//
-var offsetX, offsetY;
+
 reOffset();
+
 window.onscroll = function (e) {
   reOffset();
 };
@@ -85,6 +87,7 @@ function createSticker(src) {
     // draw the shapes on the canvas
     drawAll();
     // listen for mouse events
+    canvas.ondblclick = deleteSticker;
     canvas.onmousedown = handleMouseDown;
     canvas.onmousemove = handleMouseMove;
     canvas.onmouseup = handleMouseUp;
@@ -197,4 +200,23 @@ function drawAll() {
       ctx.drawImage(shape.image, shape.x, shape.y);
     }
   }
+}
+
+// TESTING DELETE STICKER ***
+function deleteSticker(e, item) {
+
+  e.preventDefault();
+  e.stopPropagation();
+
+  startX = parseInt(e.clientX - offsetX);
+  startY = parseInt(e.clientY - offsetY);
+
+   for (var i = 0; i < shapes.length; i++) {
+    if (isMouseInShape(startX, startY, shapes[i])) {
+
+      console.log(shapes[i])
+      shapes.splice(i, 1);
+    }
+  }  
+  drawAll();
 }
