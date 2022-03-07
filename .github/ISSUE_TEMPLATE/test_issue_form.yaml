@@ -1,3 +1,7 @@
+name: Test Issue Forms
+description: testing issue forms template
+title: "[Test] :"
+
 body:
 - type: markdown
   value: "## Welcome!"
